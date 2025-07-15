@@ -1,0 +1,552 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis | InsightHire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-primary': '#0B0F19',
+                        'dark-secondary': '#1A1F2E',
+                        'dark-accent': '#252A3A',
+                        'purple-primary': '#6366F1',
+                        'purple-secondary': '#8B5CF6',
+                        'teal-accent': '#14B8A6',
+                        'emerald-accent': '#10B981',
+                        'slate-800': '#1E293B',
+                        'slate-700': '#334155',
+                        'slate-600': '#475569',
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #14B8A6 100%)',
+                        'gradient-secondary': 'linear-gradient(135deg, #1E293B 0%, #334155 100%)',
+                    },
+                    animation: {
+                        'float': 'float 20s infinite linear',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'slide-in': 'slide-in 0.5s ease-out',
+                        'fade-in': 'fade-in 0.6s ease-out',
+                        'progress-shimmer': 'progress-shimmer 2s linear infinite',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(99, 102, 241, 0.3)',
+                        'glow-lg': '0 0 40px rgba(99, 102, 241, 0.4)',
+                        'neon': '0 0 5px rgba(20, 184, 166, 0.5), 0 0 20px rgba(20, 184, 166, 0.3), 0 0 35px rgba(20, 184, 166, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(139, 92, 246, 0.8); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+        }
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes progress-shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .particle {
+            position: absolute;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 8px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #6366F1, #14B8A6);
+            border-radius: 10px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #8B5CF6, #10B981);
+        }
+        .progress-shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progress-shimmer 2s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-dark-primary text-white min-h-screen overflow-x-hidden">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 bg-gradient-to-br from-dark-primary via-dark-secondary to-dark-accent opacity-90 -z-10"></div>
+    
+    <!-- Floating particles -->
+    <div class="particles fixed inset-0 pointer-events-none -z-10"></div>
+
+    <!-- Navigation -->
+    <nav class="glass-effect sticky top-0 z-50 py-4 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="/" class="flex items-center space-x-2 hover:scale-105 transition-transform duration-300">
+                <span class="text-2xl font-bold bg-gradient-to-r from-purple-primary to-teal-accent bg-clip-text text-transparent animate-glow">
+                    InsightHire
+                </span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="/dashboard/" class="text-gray-300 hover:text-white transition-colors duration-300">Dashboard</a>
+                <a href="/interviews/" class="px-4 py-2 bg-gradient-to-r from-purple-primary to-teal-accent text-white rounded-lg hover:shadow-glow transition-all duration-300">Candidate Analysis</a>
+                <a href="/resources/" class="text-gray-300 hover:text-white transition-colors duration-300">Resources</a>
+                <a href="/profile/" class="px-4 py-2 bg-gradient-to-r from-emerald-accent to-teal-accent text-white rounded-lg hover:shadow-lg hover:shadow-emerald-accent/25 hover:scale-105 transition-all duration-300">My Profile</a>
+            </div>
+            
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="min-h-screen py-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <!-- Analysis Header -->
+            <div class="text-center mb-12 animate-fade-in">
+                <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-primary via-purple-secondary to-teal-accent bg-clip-text text-transparent">
+                    Candidate Analysis
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Comprehensive interview and performance evaluation for {{ candidate.user.username }}
+                </p>
+            </div>
+
+            <!-- Candidate Info Card -->
+            <div class="glass-effect rounded-3xl p-8 mb-8 card-hover animate-slide-in">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-bold text-white">{{ candidate.user.username }}</h2>
+                            <p class="text-gray-400">Interview Analysis Dashboard</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-video text-teal-accent text-2xl"></i>
+                        <div>
+                            <p class="text-gray-400">Meeting Link:</p>
+                            <a href="{{ candidate.meeting_link }}" target="_blank" 
+                               class="text-teal-accent hover:text-purple-primary transition-colors duration-300 font-medium">
+                                Join Meeting
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Sections -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Audio Analysis -->
+                <div class="glass-effect rounded-2xl p-6 card-hover animate-fade-in">
+                    <div class="flex items-center mb-6">
+                        <div class="p-3 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full mr-4">
+                            <i class="fas fa-microphone text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-purple-primary to-teal-accent bg-clip-text text-transparent">
+                            Audio Analysis
+                        </h3>
+                    </div>
+                    
+                    <form method="post" enctype="multipart/form-data" class="mb-6">
+                        {% csrf_token %}
+                        <input type="hidden" name="resume_id" value="{{ candidate.id }}">
+                        <div class="flex space-x-4">
+                            <input type="file" name="audio_file" accept=".m4a" required 
+                                   class="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-primary file:text-white hover:file:bg-purple-secondary focus:outline-none focus:ring-2 focus:ring-purple-primary">
+                            <button type="submit" name="upload_audio" 
+                                    class="px-6 py-3 bg-gradient-to-r from-purple-primary to-teal-accent text-white rounded-xl hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    {% if candidate.audio_file %}
+                    <div class="mb-6 p-4 bg-white/5 rounded-xl border border-white/10">
+                        <p class="text-gray-300 mb-3">Uploaded Audio: 
+                            <a href="{{ candidate.audio_file.url }}" target="_blank" 
+                               class="text-teal-accent hover:text-purple-primary transition-colors duration-300">
+                                {{ candidate.audio_file.name }}
+                            </a>
+                        </p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="resume_id" value="{{ candidate.id }}">
+                            <button type="submit" name="analyze_audio" 
+                                    class="w-full py-3 bg-gradient-to-r from-purple-secondary to-purple-primary text-white rounded-xl hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2">
+                                <i class="fas fa-brain"></i>
+                                <span>Analyze Audio</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    {% for recording in recordings %}
+                    <div class="bg-gradient-to-r from-slate-800/50 to-slate-700/50 rounded-xl border border-white/10 overflow-hidden">
+                        <div class="flex items-center justify-between px-6 py-4 bg-white/5 border-b border-white/10">
+                            <h4 class="text-lg font-bold text-white flex items-center">
+                                <i class="fas fa-file-audio text-purple-primary mr-3"></i>
+                                Audio Analysis Result
+                            </h4>
+                            <button onclick="copyToClipboard(this, '{{ recording.transcribed_text }}')" 
+                                    class="px-4 py-2 bg-gradient-to-r from-purple-primary to-teal-accent text-white rounded-lg hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+                                <i class="fas fa-copy"></i>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                        <div class="max-h-64 overflow-y-auto scrollbar-custom p-6">
+                            <div class="prose prose-invert max-w-none">
+                                <div class="text-gray-300 leading-relaxed">
+                                    {{ recording.transcribed_text|linebreaks }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-microphone-slash text-white text-xl"></i>
+                        </div>
+                        <p class="text-gray-400 text-lg">No audio analysis available.</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Video Analysis -->
+                <div class="glass-effect rounded-2xl p-6 card-hover animate-fade-in" style="animation-delay: 0.2s;">
+                    <div class="flex items-center mb-6">
+                        <div class="p-3 bg-gradient-to-r from-teal-accent to-emerald-accent rounded-full mr-4">
+                            <i class="fas fa-video text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-teal-accent to-emerald-accent bg-clip-text text-transparent">
+                            Video Analysis
+                        </h3>
+                    </div>
+                    
+                    <form method="post" enctype="multipart/form-data" class="mb-6">
+                        {% csrf_token %}
+                        <input type="hidden" name="resume_id" value="{{ candidate.id }}">
+                        <div class="flex space-x-4">
+                            <input type="file" name="video_file" accept=".mp4" required 
+                                   class="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-accent file:text-white hover:file:bg-emerald-accent focus:outline-none focus:ring-2 focus:ring-teal-accent">
+                            <button type="submit" name="upload_video" 
+                                    class="px-6 py-3 bg-gradient-to-r from-teal-accent to-emerald-accent text-white rounded-xl hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    {% if candidate.video_file %}
+                    <div class="mb-6 p-4 bg-white/5 rounded-xl border border-white/10">
+                        <p class="text-gray-300 mb-4">Uploaded Video: 
+                            <a href="{{ candidate.video_file.url }}" target="_blank" 
+                               class="text-teal-accent hover:text-purple-primary transition-colors duration-300">
+                                {{ candidate.video_file.name }}
+                            </a>
+                        </p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="resume_id" value="{{ candidate.id }}">
+                                <button type="submit" name="analyze_video" 
+                                        class="w-full py-3 bg-gradient-to-r from-teal-accent to-emerald-accent text-white rounded-xl hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <span>Generate Heatmap</span>
+                                </button>
+                            </form>
+
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="resume_id" value="{{ candidate.id }}">
+                                <button type="submit" name="analyze_emotions" 
+                                        class="w-full py-3 bg-gradient-to-r from-purple-secondary to-purple-primary text-white rounded-xl hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2">
+                                    <i class="fas fa-heart"></i>
+                                    <span>Analyze Emotions</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    {% if heatmap_path %}
+                    <div class="bg-gradient-to-r from-slate-800/50 to-slate-700/50 rounded-xl border border-white/10 overflow-hidden mb-6">
+                        <div class="px-6 py-4 bg-white/5 border-b border-white/10">
+                            <h4 class="text-lg font-bold text-white flex items-center">
+                                <i class="fas fa-chart-pie text-teal-accent mr-3"></i>
+                                Video Heatmap
+                            </h4>
+                        </div>
+                        <div class="p-6">
+                            <img src="{{ heatmap_path }}" alt="Heatmap" 
+                                 class="w-full h-auto rounded-xl border border-white/10 hover:scale-105 transition-transform duration-300">
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if emotion_analysis %}
+                    <div class="bg-gradient-to-r from-slate-800/50 to-slate-700/50 rounded-xl border border-white/10 overflow-hidden">
+                        <div class="flex items-center justify-between px-6 py-4 bg-white/5 border-b border-white/10">
+                            <h4 class="text-lg font-bold text-white flex items-center">
+                                <i class="fas fa-heart text-purple-primary mr-3"></i>
+                                Emotion Analysis
+                            </h4>
+                            <button onclick="copyToClipboard(this, '{{ emotion_analysis }}')" 
+                                    class="px-4 py-2 bg-gradient-to-r from-purple-primary to-teal-accent text-white rounded-lg hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+                                <i class="fas fa-copy"></i>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                        <div class="max-h-64 overflow-y-auto scrollbar-custom p-6">
+                            <div class="prose prose-invert max-w-none">
+                                <div class="text-gray-300 leading-relaxed">
+                                    {{ emotion_analysis }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-video-slash text-white text-xl"></i>
+                        </div>
+                        <p class="text-gray-400 text-lg">No video uploaded yet.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Overall Report Section -->
+            <div class="glass-effect rounded-2xl p-8 mt-8 card-hover animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full mr-4">
+                            <i class="fas fa-file-alt text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-purple-primary to-teal-accent bg-clip-text text-transparent">
+                            Overall Report
+                        </h3>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="resume_id" value="{{ candidate.id }}">
+                        <button type="submit" name="generate_overall_report" 
+                                class="px-6 py-3 bg-gradient-to-r from-purple-primary to-teal-accent text-white rounded-xl hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+                            <i class="fas fa-save"></i>
+                            <span>Generate Report</span>
+                        </button>
+                    </form>
+                </div>
+
+                {% if candidate.overall_report %}
+                <div class="bg-gradient-to-r from-slate-800/50 to-slate-700/50 rounded-xl border border-white/10 overflow-hidden">
+                    <div class="flex items-center justify-between px-6 py-4 bg-white/5 border-b border-white/10">
+                        <h4 class="text-lg font-bold text-white flex items-center">
+                            <i class="fas fa-file-alt text-purple-primary mr-3"></i>
+                            Comprehensive Report
+                        </h4>
+                        <button onclick="copyToClipboard(this, '{{ candidate.overall_report }}')" 
+                                class="px-4 py-2 bg-gradient-to-r from-purple-primary to-teal-accent text-white rounded-lg hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+                            <i class="fas fa-copy"></i>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                    <div class="max-h-96 overflow-y-auto scrollbar-custom p-6">
+                        <div class="prose prose-invert max-w-none">
+                            <div class="text-gray-300 leading-relaxed">
+                                {{ candidate.overall_report|linebreaks }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="text-center py-12">
+                    <div class="w-20 h-20 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-file-alt text-white text-2xl"></i>
+                    </div>
+                    <p class="text-gray-400 text-lg">No report generated yet. Upload audio and video files to generate a comprehensive report.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Hiring Recommendation Section -->
+            {% if candidate.hiring_recommendation %}
+            <div class="glass-effect rounded-2xl p-8 mt-8 card-hover animate-fade-in" style="animation-delay: 0.6s;">
+                <div class="flex items-center mb-6">
+                    <div class="p-3 bg-gradient-to-r from-emerald-accent to-teal-accent rounded-full mr-4">
+                        <i class="fas fa-thumbs-up text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold bg-gradient-to-r from-emerald-accent to-teal-accent bg-clip-text text-transparent">
+                        Hiring Recommendation
+                    </h3>
+                </div>
+                
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xl font-bold text-white">Recommendation Score:</span>
+                        <span class="text-3xl font-bold {% if candidate.hiring_recommendation >= 80 %}text-emerald-accent{% elif candidate.hiring_recommendation >= 50 %}text-yellow-400{% else %}text-red-400{% endif %}">
+                            {{ candidate.hiring_recommendation }}%
+                        </span>
+                    </div>
+                    <div class="w-full bg-white/10 rounded-full h-4 overflow-hidden">
+                        <div class="h-full rounded-full progress-shimmer relative overflow-hidden transition-all duration-1000 ease-out {% if candidate.hiring_recommendation >= 80 %}bg-gradient-to-r from-emerald-accent to-teal-accent{% elif candidate.hiring_recommendation >= 50 %}bg-gradient-to-r from-yellow-400 to-orange-400{% else %}bg-gradient-to-r from-red-400 to-red-600{% endif %}" 
+                             style="width: {{ candidate.hiring_recommendation }}%;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <form method="post" action="{% url 'update_application_status' candidate.id %}" class="flex-1">
+                        {% csrf_token %}
+                        <button type="submit" name="status" value="Accepted" 
+                                class="w-full py-4 px-6 bg-gradient-to-r from-emerald-accent to-teal-accent text-white font-semibold rounded-xl hover:shadow-glow hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2">
+                            <i class="fas fa-check"></i>
+                            <span>Accept Candidate</span>
+                        </button>
+                    </form>
+                    
+                    <form method="post" action="{% url 'update_application_status' candidate.id %}" class="flex-1">
+                        {% csrf_token %}
+                        <button type="submit" name="status" value="Rejected" 
+                                class="w-full py-4 px-6 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-red-500/25 hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2">
+                            <i class="fas fa-times"></i>
+                            <span>Decline Candidate</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass-effect py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="flex justify-center space-x-8 mb-4">
+                <a href="/privacy/" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Privacy Policy</span>
+                </a>
+                <a href="/terms/" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Terms of Service</span>
+                </a>
+                <a href="/contact/" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact Us</span>
+                </a>
+            </div>
+            <p class="text-gray-500">&copy; 2025 InsightHire. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particles = document.querySelector('.particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            console.log('Mobile menu toggled');
+        }
+
+        // Enhanced copy to clipboard
+        function copyToClipboard(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalContent = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> <span>Copied!</span>';
+                btn.classList.add('bg-gradient-to-r', 'from-emerald-accent', 'to-teal-accent');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.remove('from-emerald-accent', 'to-teal-accent');
+                }, 2000);
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        // Format markdown content
+        function formatMarkdown() {
+            const markdownContainers = document.querySelectorAll('.markdown');
+            markdownContainers.forEach(container => {
+                if (typeof marked !== 'undefined') {
+                    let content = container.textContent.trim();
+                    container.innerHTML = marked.parse(content);
+                }
+            });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            formatMarkdown();
+        });
+    </script>
+</body>
+</html>

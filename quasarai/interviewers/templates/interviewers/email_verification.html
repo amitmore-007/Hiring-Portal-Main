@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification | InsightHire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-primary': '#0B0F19',
+                        'dark-secondary': '#1A1F2E',
+                        'dark-accent': '#252A3A',
+                        'purple-primary': '#6366F1',
+                        'purple-secondary': '#8B5CF6',
+                        'teal-accent': '#14B8A6',
+                        'emerald-accent': '#10B981',
+                    },
+                    animation: {
+                        'float': 'float 20s infinite linear',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'fade-in': 'fade-in 0.8s ease-out',
+                        'slide-up': 'slide-up 0.8s ease-out',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(139, 92, 246, 0.8); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .particle {
+            position: absolute;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .email-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .email-shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-dark-primary text-white min-h-screen flex items-center justify-center p-4">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 bg-gradient-to-br from-dark-primary via-dark-secondary to-dark-accent opacity-90 -z-10"></div>
+    
+    <!-- Floating particles -->
+    <div class="particles fixed inset-0 pointer-events-none -z-10"></div>
+
+    <!-- Email Verification Container -->
+    <div class="w-full max-w-2xl mx-auto">
+        <div class="glass-effect rounded-3xl p-8 lg:p-12 email-shimmer animate-fade-in shadow-2xl">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-24 h-24 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
+                    <i class="fas fa-envelope text-white text-3xl"></i>
+                </div>
+                <h1 class="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-primary via-purple-secondary to-teal-accent bg-clip-text text-transparent animate-glow">
+                    InsightHire
+                </h1>
+                <h2 class="text-2xl font-bold text-white mb-2">Verify Your Email Address</h2>
+                <p class="text-gray-400">Complete your interviewer registration</p>
+            </div>
+
+            <!-- Content -->
+            <div class="space-y-6 animate-slide-up">
+                <div class="text-center">
+                    <p class="text-lg text-gray-300 mb-4">
+                        Hello <span class="text-teal-accent font-semibold">{{ user.username }}</span>,
+                    </p>
+                    <p class="text-gray-300 leading-relaxed">
+                        Thank you for joining InsightHire! We're excited to have you as part of our professional interviewing community. 
+                        To complete your registration and activate your interviewer account, please verify your email address.
+                    </p>
+                </div>
+
+                <!-- Verification Button -->
+                <div class="text-center my-8">
+                    <a href="{{ verification_link }}" 
+                       class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-primary to-teal-accent text-white font-semibold text-lg rounded-xl hover:shadow-2xl hover:shadow-purple-primary/25 hover:scale-105 transition-all duration-300 relative overflow-hidden group">
+                        <span class="relative z-10 flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-xl"></i>
+                            <span>Verify Email Address</span>
+                        </span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-teal-accent to-purple-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </a>
+                </div>
+
+                <!-- Benefits Section -->
+                <div class="bg-white/5 rounded-2xl p-6 border border-white/10">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                        <i class="fas fa-star text-teal-accent mr-3"></i>
+                        What's Next?
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-user-tie text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Access Your Dashboard</h4>
+                                <p class="text-gray-400 text-sm">Manage candidates and interviews</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-brain text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">AI-Powered Tools</h4>
+                                <p class="text-gray-400 text-sm">Generate smart questions and analysis</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-video text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Video Analysis</h4>
+                                <p class="text-gray-400 text-sm">Analyze candidate emotions and behavior</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-chart-line text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white">Detailed Reports</h4>
+                                <p class="text-gray-400 text-sm">Get comprehensive interview insights</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alternative Link -->
+                <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <p class="text-sm text-gray-400 mb-2">
+                        <i class="fas fa-info-circle text-teal-accent mr-2"></i>
+                        If the button above doesn't work, copy and paste this link into your browser:
+                    </p>
+                    <div class="bg-dark-secondary rounded-lg p-3 border border-white/10">
+                        <p class="text-xs text-gray-300 break-all font-mono">{{ verification_link }}</p>
+                    </div>
+                </div>
+
+                <!-- Security Notice -->
+                <div class="text-center">
+                    <div class="inline-flex items-center px-4 py-2 bg-yellow-500/10 text-yellow-400 rounded-lg border border-yellow-500/20">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span class="text-sm">This verification link expires in 24 hours</span>
+                    </div>
+                </div>
+
+                <!-- Support Info -->
+                <div class="text-center">
+                    <p class="text-gray-400 text-sm mb-2">
+                        Didn't create an account? You can safely ignore this email.
+                    </p>
+                    <p class="text-gray-400 text-sm">
+                        Need help? Contact our support team at 
+                        <a href="mailto:support@insighthire.com" class="text-teal-accent hover:text-purple-primary transition-colors duration-300">
+                            support@insighthire.com
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 pt-6 border-t border-white/10 text-center">
+                <div class="flex justify-center space-x-6 mb-4">
+                    <a href="#" class="w-10 h-10 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                        <i class="fab fa-twitter text-white"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                        <i class="fab fa-linkedin text-white"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                        <i class="fab fa-github text-white"></i>
+                    </a>
+                </div>
+                <p class="text-gray-500 text-sm">
+                    © 2025 InsightHire. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particles = document.querySelector('.particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+    </script>
+</body>
+</html>
