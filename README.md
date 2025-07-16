@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
 [![Django](https://img.shields.io/badge/Django-4.0%2B-green.svg)](https://djangoproject.com)
-[![React](https://img.shields.io/badge/React-18.0%2B-61DAFB.svg)](https://reactjs.org)
+[![Html](https://img.shields.io/badge/Html-5.0%2B-61DAFB.svg)](https://html.org)
 
 ## 🚀 Overview
 
@@ -129,17 +129,9 @@ SECRET_KEY=your-secret-key-here
 DATABASE_URL=sqlite:///db.sqlite3
 ALLOWED_HOSTS=localhost,127.0.0.1
 
-# Email Configuration
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
+GROQ_API_KEY=your-api-key
 
-# AI Model Configuration
-AI_MODEL_PATH=./models/
-GAZE_TRACKING_ENABLED=True
+
 ```
 
 ### Database Configuration
