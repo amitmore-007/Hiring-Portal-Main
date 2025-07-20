@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification Required | Intervu.AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-primary': '#0B0F19',
+                        'dark-secondary': '#1A1F2E',
+                        'dark-accent': '#252A3A',
+                        'purple-primary': '#6366F1',
+                        'purple-secondary': '#8B5CF6',
+                        'teal-accent': '#14B8A6',
+                        'emerald-accent': '#10B981',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'fade-in': 'fade-in 0.8s ease-out',
+                        'slide-up': 'slide-up 0.8s ease-out',
+                        'bounce-slow': 'bounce-slow 3s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(139, 92, 246, 0.8); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .particle {
+            position: absolute;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-dark-primary text-white min-h-screen flex items-center justify-center p-4">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 bg-gradient-to-br from-dark-primary via-dark-secondary to-dark-accent opacity-90 -z-10"></div>
+    
+    <!-- Floating particles -->
+    <div class="particles fixed inset-0 pointer-events-none -z-10"></div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-4xl mx-auto">
+        <div class="glass-effect rounded-3xl p-8 lg:p-12 animate-fade-in shadow-2xl">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-28 h-28 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center mx-auto mb-6 animate-float">
+                    <i class="fas fa-envelope-open text-white text-4xl"></i>
+                </div>
+                <h1 class="text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-primary via-purple-secondary to-teal-accent bg-clip-text text-transparent animate-glow">
+                    Check Your Email
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    We've sent you a verification link to complete your Intervu.AI registration
+                </p>
+            </div>
+
+            <!-- Steps Section -->
+            <div class="max-w-3xl mx-auto mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-effect rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300 animate-slide-up">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-white">1</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Check Your Inbox</h3>
+                        <p class="text-gray-400 text-sm">Look for an email from Intervu.AI with your verification link</p>
+                    </div>
+                    
+                    <div class="glass-effect rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300 animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="w-16 h-16 bg-gradient-to-r from-teal-accent to-emerald-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-white">2</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Click the Link</h3>
+                        <p class="text-gray-400 text-sm">Click the verification button in the email to activate your account</p>
+                    </div>
+                    
+                    <div class="glass-effect rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300 animate-slide-up" style="animation-delay: 0.4s;">
+                        <div class="w-16 h-16 bg-gradient-to-r from-emerald-accent to-purple-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-white">3</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Start Interviewing</h3>
+                        <p class="text-gray-400 text-sm">Access your dashboard and begin using Intervu.AI's powerful features</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Preview -->
+            <div class="glass-effect rounded-2xl p-8 mb-8 animate-slide-up" style="animation-delay: 0.6s;">
+                <h3 class="text-2xl font-bold text-white mb-6 text-center flex items-center justify-center">
+                    <i class="fas fa-star text-teal-accent mr-3"></i>
+                    What Awaits You
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-primary to-teal-accent rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-brain text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white text-lg">AI-Powered Question Generation</h4>
+                            <p class="text-gray-400">Automatically generate relevant interview questions based on candidate resumes</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-teal-accent to-emerald-accent rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-video text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white text-lg">Video Interview Analysis</h4>
+                            <p class="text-gray-400">Analyze candidate emotions and behavior during video interviews</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-emerald-accent to-purple-primary rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-calendar-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white text-lg">Smart Scheduling</h4>
+                            <p class="text-gray-400">Seamlessly schedule and manage interview meetings with candidates</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-secondary to-teal-accent rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-chart-line text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white text-lg">Comprehensive Reports</h4>
+                            <p class="text-gray-400">Get detailed analytics and insights for better hiring decisions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="glass-effect rounded-2xl p-6 animate-slide-up" style="animation-delay: 0.8s;">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                        <i class="fas fa-question-circle text-yellow-400 mr-3"></i>
+                        Didn't Receive the Email?
+                    </h3>
+                    <ul class="text-gray-300 space-y-2 text-sm">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-teal-accent mr-2 mt-1"></i>
+                            <span>Check your spam or junk folder</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-teal-accent mr-2 mt-1"></i>
+                            <span>Wait a few minutes and refresh your inbox</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-teal-accent mr-2 mt-1"></i>
+                            <span>Make sure you entered the correct email address</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-effect rounded-2xl p-6 animate-slide-up" style="animation-delay: 1s;">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                        <i class="fas fa-clock text-orange-400 mr-3"></i>
+                        Important Notes
+                    </h3>
+                    <ul class="text-gray-300 space-y-2 text-sm">
+                        <li class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-400 mr-2 mt-1"></i>
+                            <span>Verification link expires in 24 hours</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-shield-alt text-green-400 mr-2 mt-1"></i>
+                            <span>Your account is secure until verified</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-purple-400 mr-2 mt-1"></i>
+                            <span>Email sent from no-reply@intervu.ai</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center space-y-4">
+                <a href="{% url 'interviewer_login' %}" 
+                   class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-primary to-teal-accent text-white font-semibold text-lg rounded-xl hover:shadow-2xl hover:shadow-purple-primary/25 hover:scale-105 transition-all duration-300 relative overflow-hidden group">
+                    <span class="relative z-10 flex items-center space-x-3">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login to Your Account</span>
+                    </span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-teal-accent to-purple-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </a>
+                
+                <div class="flex justify-center space-x-4">
+                    <a href="mailto:support@intervu.ai" 
+                       class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2">
+                        <i class="fas fa-envelope"></i>
+                        <span>Contact Support</span>
+                    </a>
+                    <span class="text-gray-600">•</span>
+                    <a href="/help" 
+                       class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Help Center</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 pt-6 border-t border-white/10 text-center">
+                <p class="text-gray-500 text-sm">
+                    © 2025 Intervu.AI. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particles = document.querySelector('.particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+    </script>
+</body>
+</html>
