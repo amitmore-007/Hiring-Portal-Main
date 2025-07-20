@@ -3,13 +3,19 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
 [![Django](https://img.shields.io/badge/Django-4.0%2B-green.svg)](https://djangoproject.com)
 [![HTML](https://img.shields.io/badge/HTML-5.0%2B-61DAFB.svg)](https://html.spec.whatwg.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 ---
 
 ## ✨ Overview
 
 **Intervu.Ai** is a futuristic, AI-powered mock interview platform tailored to help job seekers master their technical and behavioral interview skills. Leveraging cutting-edge technologies like Computer Vision, NLP, and Generative AI, Intervu.Ai delivers an immersive and insightful interview simulation experience with real-time feedback.
+
+---
+
+## 🎥 Demo Video
+
+▶️ **Watch the live demo here**: [Click to Watch](https://drive.google.com/file/d/1BKsurA1Q6tYVkpnISAYqpljf310xBQtc/view?usp=sharing)
 
 ---
 
@@ -81,7 +87,7 @@
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/intervu-ai.git
+git clone https://github.com/amitmore-007/Hiring-Portal-Main.git
 cd intervu-ai
 
 # 2. Create virtual environment
